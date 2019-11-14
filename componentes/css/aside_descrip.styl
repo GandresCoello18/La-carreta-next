@@ -1,0 +1,37 @@
+.aside_left_descrip
+    position: absolute;
+    color: #fff;
+    background-color: rgba(0,0,0,0.5);
+    max-width 500px;
+    height 270px !important;
+    padding: 30px;
+    border-radius: 10px;
+    top: 170px;
+    h1
+        font-family: 'Open Sans', sans-serif;
+    p
+        font-size: 17px;    
+    #btn-reservacion
+        background-color: #fff;
+        color: red;
+        width 180px;
+        padding: 15px 20px;
+        font-family: 'Work Sans', sans-serif;
+        text-align: center;
+        cursor: pointer;
+        &:before
+            content: '';
+            position: absolute;
+            width 15px;
+            height 15px;
+            background: red;
+            border-radius: 50%;
+            left: 45px;
+            top: 222px;
+            -webkit-animation: punto 2s infinite;
+
+@-webkit-keyframes punto
+    20%
+        opacity:0;
+    100%
+        opacity 1;

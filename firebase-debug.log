@@ -1,0 +1,72 @@
+[debug] [2019-10-04T20:40:48.290Z] ----------------------------------------------------------------------
+[debug] [2019-10-04T20:40:48.292Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2019-10-04T20:40:48.293Z] CLI Version:   7.4.0
+[debug] [2019-10-04T20:40:48.293Z] Platform:      win32
+[debug] [2019-10-04T20:40:48.293Z] Node Version:  v10.16.0
+[debug] [2019-10-04T20:40:48.294Z] Time:          Fri Oct 04 2019 15:40:48 GMT-0500 (GMT-05:00)
+[debug] [2019-10-04T20:40:48.294Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-10-04T20:40:48.303Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-10-04T20:40:48.303Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\ANDRES COELLO\Desktop\Next-Express- La carreta\next-express-emotion-master
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project.
+[debug] [2019-10-04T20:41:54.232Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-10-04T20:41:54.233Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-10-04T20:41:54.814Z] <<< HTTP RESPONSE 200
+[debug] [2019-10-04T20:41:55.042Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects  
+
+[debug] [2019-10-04T20:41:55.860Z] <<< HTTP RESPONSE 400
+[debug] [2019-10-04T20:41:55.860Z] <<< HTTP RESPONSE BODY
+[debug] [2019-10-04T20:41:55.863Z] HTTP Error: 400, field [project_id] has issue [project_id contains invalid characters]
+[debug] [2019-10-04T20:41:56.237Z] FirebaseError: HTTP Error: 400, field [project_id] has issue [project_id contains invalid characters]
+    at module.exports (C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at Request.<anonymous> (C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1161:10)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at IncomingMessage.<anonymous> (C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1083:12)
+    at Object.onceWrapper (events.js:286:20)
+[error] 
+[error] Error: Failed to create Google Cloud project. See firebase-debug.log for more info.
+[debug] [2019-10-04T20:42:16.273Z] ----------------------------------------------------------------------
+[debug] [2019-10-04T20:42:16.276Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ANDRES COELLO\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2019-10-04T20:42:16.276Z] CLI Version:   7.4.0
+[debug] [2019-10-04T20:42:16.276Z] Platform:      win32
+[debug] [2019-10-04T20:42:16.276Z] Node Version:  v10.16.0
+[debug] [2019-10-04T20:42:16.277Z] Time:          Fri Oct 04 2019 15:42:16 GMT-0500 (GMT-05:00)
+[debug] [2019-10-04T20:42:16.277Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-10-04T20:42:16.285Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-10-04T20:42:16.286Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\ANDRES COELLO\Desktop\Next-Express- La carreta\next-express-emotion-master
+
