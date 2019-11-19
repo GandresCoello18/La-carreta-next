@@ -57,9 +57,9 @@ class header extends React.Component{
             <div class="header">Se necesita 7 o mas caracteres en contraseña</div>
         `;
       }else{
-          const https = '539dcce5';
+          const https = 'https://api-carreta.now.sh/';
     
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/https://${https}.ngrok.io/user?correo=${correo}&clave=${password}`)
+        const res = await fetch(`https://cors-anywhere.herokuapp.com/${https}/user?correo=${correo}&clave=${password}`)
         const respuesta = await res.json();
         
         if(respuesta.body.length == 0 || respuesta.error == 'usuario no encontrado' || respuesta.error == 'contraseña incorrecta'){
@@ -75,7 +75,7 @@ class header extends React.Component{
                 telefono: phone
             }
 
-            fetch(`https://cors-anywhere.herokuapp.com/https://${https}.ngrok.io/user`, {
+            fetch(`https://cors-anywhere.herokuapp.com/${https}/user`, {
                 method: 'POST',
                 body: JSON.stringify(datos),
                 headers:{
@@ -132,7 +132,10 @@ class header extends React.Component{
             <div class="header">Campos vacios, por favor revisa y vuelve a intentarlo</div>
         `;
     }else{
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/https://88dd9694.ngrok.io/user?correo=${login_correo}&clave=${login_password}`)
+        
+        const https = 'https://api-carreta.now.sh/';
+
+        const res = await fetch(`https://cors-anywhere.herokuapp.com/${https}/user?correo=${login_correo}&clave=${login_password}`)
         const respuesta = await res.json();
         console.log(respuesta);
 
@@ -150,7 +153,7 @@ class header extends React.Component{
                 telefono: respuesta.body[0].telefono
             }
 
-                const res_2 = await fetch('https://cors-anywhere.herokuapp.com/https://88dd9694.ngrok.io/login', {
+                const res_2 = await fetch(`https://cors-anywhere.herokuapp.com/${https}/login`, {
                     method: 'POST',
                     body: JSON.stringify(datos),
                     headers:{
@@ -162,7 +165,7 @@ class header extends React.Component{
             console.log(respuesta_2);
             const token = respuesta_2.key;
 
-            const res_3 = await fetch(`https://cors-anywhere.herokuapp.com/https://88dd9694.ngrok.io/login/protected`, {
+            const res_3 = await fetch(`https://cors-anywhere.herokuapp.com/${https}/login/protected`, {
                 method: 'GET',
                 headers:{
                     'Content-Type': 'application/json',
@@ -173,8 +176,13 @@ class header extends React.Component{
             console.log(respuesta_3);
             
             if(respuesta_3.text == "protegido"){
-                localStorage.setItem('user', respuesta_3.data.respuesta.id);
-                window.location.href = "/especiales";
+                if(respuesta_3.data.respuesta.name !== 'ADMINISTRACION-CARRETA' && respuesta_3.data.respuesta.correo !== 'admin@gmail.com'){
+                    localStorage.setItem('user', respuesta_3.data.respuesta.id);
+                    window.location.href = "/especiales";
+                }else{
+                    localStorage.setItem('admin', respuesta_3.data.respuesta.id);
+                    window.location.href = "/administracion";
+                }
             }
         }
             /*crear_sms_login.classList = "ui positive message";
