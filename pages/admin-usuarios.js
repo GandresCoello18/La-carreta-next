@@ -12,12 +12,20 @@ class AdminUser extends React.Component{
     }
     
     async componentDidMount(){
-        const https = '539dcce5';
-        const req = await fetch(`https://cors-anywhere.herokuapp.com/https://${https}.ngrok.io/user`);
+        const https = 'https://api-carreta.now.sh/';
+        const req = await fetch(`https://cors-anywhere.herokuapp.com/${https}/user`);
         let  datos  = await req.json();
         this.setState({
             data: datos.body
         })
+    }
+
+    notificacion = id => {
+        console.log('ok esucho '+ id);
+    }
+
+    AllNotification = () => {
+        console.log('notificacion para todos');
     }
 
     render(){
@@ -41,7 +49,7 @@ class AdminUser extends React.Component{
                                     <Table.HeaderCell textAlign="center">Correo Electronico</Table.HeaderCell>
                                     <Table.HeaderCell textAlign="center">Fecha</Table.HeaderCell>
                                     <Table.HeaderCell textAlign="center">Telefono</Table.HeaderCell>
-                                    <Table.HeaderCell textAlign="center" className="bg-danger">Notificar A todos</Table.HeaderCell>
+                                    <Table.HeaderCell textAlign="center" className="bg-danger" style={{cursor: 'pointer'}} onClick={this.AllNotification} >Notificar A todos</Table.HeaderCell>
                                 </Table.Row>
                                 </Table.Header>
 
@@ -52,7 +60,7 @@ class AdminUser extends React.Component{
                                             <Table.Cell textAlign='center'>{valor.correo}</Table.Cell>
                                             <Table.Cell textAlign='center'>{valor.fecha}</Table.Cell>
                                             <Table.Cell textAlign='center'>{valor.telefono}</Table.Cell>
-                                            <Table.Cell textAlign='center'>Enviar Notificacion</Table.Cell>
+                                            <Table.Cell textAlign='center' value={valor._id} onClick={ () => this.notificacion(valor._id)} style={{ cursor: 'pointer'}}>Enviar Notificacion</Table.Cell>
                                         </Table.Row>
                                     ))}
                                 </Table.Body>

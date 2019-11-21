@@ -1,11 +1,42 @@
 import React from "react";
 import { List } from 'semantic-ui-react';
+import { Header, Segment, TransitionablePortal } from 'semantic-ui-react'
 import "./css/footer.styl";
 
 class footerPie extends React.Component{
+    state = { open: false }
+
+  handleClick = () => this.setState((prevState) => ({ open: !prevState.open }))
+  handleClose = () => this.setState({ open: false })
+
+
+    email = (e) => {
+        e.preventDefault();
+        var correo = document.getElementById('email-notificacion').value;
+        if(correo){
+            e.target.reset();
+            this.setState({
+                open: true
+            })
+        }
+    }
+    
     render(){
+        const { open } = this.state
     return(
         <>
+        {this.state.open && (
+            <div>
+                <TransitionablePortal onClose={this.handleClose} open={open}>
+                <Segment
+                    style={{ left: '40%', position: 'fixed', top: '50%', zIndex: 1000 }}
+                >
+                    <Header>Notificación</Header>
+                    <p>Recibira notificaciones a su dirección de correo electronico</p>
+                </Segment>
+                </TransitionablePortal>
+            </div>
+        )}   
             <footer className="container-fluid">
                 <div className="row justify-content-center mt-2 p-4">
                     <h3 className="text-center">La Carreta</h3>
@@ -33,8 +64,8 @@ class footerPie extends React.Component{
                     <div className="col-12 col-lg-3 p-3">
                         <h5 className="">No te pierdas nada, Te avisamos todo los dias de nuestros menu.</h5>
                         
-                        <form action="" method="">
-                            <input type="email" required className="form-control" placeholder="usuario@gmail.com" />
+                        <form onSubmit={this.email}>
+                            <input type="email" required id="email-notificacion" className="form-control" placeholder="usuario@gmail.com" />
                             <input type="submit" className="form-control btn btn-primary mt-2" value="Enviar"/>
                         </form>
                     </div>

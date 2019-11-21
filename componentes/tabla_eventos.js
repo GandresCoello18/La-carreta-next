@@ -18,7 +18,7 @@ class tablaEvento extends React.Component{
                         <Table.Row>
                             <Table.Cell>
                                 <Header as='h4' image>
-                                    <Image src='/images/avatar/small/lena.png' rounded size='mini' />
+                                    <Image src='https://image.flaticon.com/icons/svg/149/149071.svg' rounded size='mini' />
                                     <Header.Content>
                                         Elena Valles
                                         <Header.Subheader>Necesito un lugar amplio y bonito para celebrar la comida de mi boda</Header.Subheader>
@@ -30,7 +30,7 @@ class tablaEvento extends React.Component{
                         <Table.Row>
                             <Table.Cell>
                                 <Header as='h4' image>
-                                    <Image src='/images/avatar/small/matthew.png' rounded size='mini' />
+                                    <Image src='https://image.flaticon.com/icons/svg/149/149071.svg' rounded size='mini' />
                                     <Header.Content>
                                         Julio Garcia
                                         <Header.Subheader>celebreare mi cumple años numero 23</Header.Subheader>
@@ -42,7 +42,7 @@ class tablaEvento extends React.Component{
                         <Table.Row>
                             <Table.Cell>
                                 <Header as='h4' image>
-                                    <Image src='/images/avatar/small/lindsay.png' rounded size='mini' />
+                                    <Image src='https://image.flaticon.com/icons/svg/149/149071.svg' rounded size='mini' />
                                     <Header.Content>
                                         Cindy Avilez
                                         <Header.Subheader>Tendremos una reunion de negocios</Header.Subheader>
@@ -54,7 +54,7 @@ class tablaEvento extends React.Component{
                         <Table.Row>
                             <Table.Cell>
                                 <Header as='h4' image>
-                                    <Image src='/images/avatar/small/mark.png' rounded size='mini' />
+                                    <Image src='https://image.flaticon.com/icons/svg/149/149071.svg' rounded size='mini' />
                                     <Header.Content>
                                         Carlos Castro
                                         <Header.Subheader>Celebrare mi aniversario junto con mi esposa e hijos</Header.Subheader>

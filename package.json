@@ -24,6 +24,8 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-emotion": "^9.2.11",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
     "semantic-ui-react": "^0.88.1",
     "stylus": "^0.54.7"
   }

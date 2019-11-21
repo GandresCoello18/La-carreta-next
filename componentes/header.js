@@ -274,32 +274,60 @@ class header extends React.Component{
 
                     <div id="menu-vertical">
                         <Menu pointing vertical>
-                            <Menu.Item name='Home'
-                                active={activeItem === 'Home'}
-                                onClick={this.handleItemClick}/>
+                            <Link to="/">
+                                <a>
+                                    <Menu.Item name='Home'
+                                    active={activeItem === 'Home'}
+                                    onClick={this.handleItemClick}>
 
-                            <Menu.Item name='Login'
-                                active={activeItem === 'Login'}
-                                onClick={this.handleItemClick}/>
+                                    </Menu.Item>
+                                </a>
+                            </Link>
 
-                            <Menu.Item name='Especiales'
-                                active={activeItem === 'Especiales'}
-                                onClick={this.handleItemClick}/>
-                                
-                            <Menu.Item name='Eventos'
-                                active={activeItem === 'Eventos'}
-                                onClick={this.handleItemClick}/>
-                                
-                            <Menu.Item name='Reservaciones'
-                                active={activeItem === 'Reservaciones'}
-                                onClick={this.handleItemClick}/>
-                                
-                            <Menu.Item name='Envio Express'
-                                active={activeItem === 'Envio Express'}
-                                onClick={this.handleItemClick}/>
+                            <Link to="#">
+                                <a>
+                                    <Menu.Item name='Login'
+                                    active={activeItem === 'Login'}
+                                    onClick={this.handleItemClick}
+                                    data-toggle="modal"
+                                    data-target="#exampleModalCenter">
+                                    
+                                    </Menu.Item>
+                                </a>
+                            </Link>
+                            
+                            <Link to="/especiales">
+                                <a>
+                                    <Menu.Item name='Especiales'
+                                    active={activeItem === 'Especiales'}
+                                    onClick={this.handleItemClick}>
 
+                                    </Menu.Item>
+                                </a>
+                            </Link>
+
+                            <Link to="/eventos">
+                                <a>
+                                    <Menu.Item name='Eventos'
+                                    active={activeItem === 'Eventos'}
+                                    onClick={this.handleItemClick}>
+
+                                    </Menu.Item>
+                                </a>
+                            </Link>    
+                                
+                            <Link to="/reservacion">
+                                <a>
+                                    <Menu.Item name='Reservaciones'
+                                    active={activeItem === 'Reservaciones'}
+                                    onClick={this.handleItemClick}>
+
+                                    </Menu.Item>
+                                </a>
+                            </Link>
+                                
                             <Menu.Item>
-                                <Input placeholder='Que Buscas..!' />
+                                <Input placeholder='Que Buscas..!' type="search" />
                             </Menu.Item>
                         </Menu>
                     </div>
