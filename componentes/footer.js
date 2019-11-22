@@ -1,14 +1,10 @@
 import React from "react";
 import { List } from 'semantic-ui-react';
-import { Header, Segment, TransitionablePortal } from 'semantic-ui-react'
+import AvisoMini from "../componentes/aviso_mini_modal";
 import "./css/footer.styl";
 
 class footerPie extends React.Component{
-    state = { open: false }
-
-  handleClick = () => this.setState((prevState) => ({ open: !prevState.open }))
-  handleClose = () => this.setState({ open: false })
-
+    state = { aviso: false }
 
     email = (e) => {
         e.preventDefault();
@@ -16,27 +12,15 @@ class footerPie extends React.Component{
         if(correo){
             e.target.reset();
             this.setState({
-                open: true
+                aviso: true
             })
         }
     }
     
     render(){
-        const { open } = this.state
     return(
         <>
-        {this.state.open && (
-            <div>
-                <TransitionablePortal onClose={this.handleClose} open={open}>
-                <Segment
-                    style={{ left: '40%', position: 'fixed', top: '50%', zIndex: 1000 }}
-                >
-                    <Header>Notificación</Header>
-                    <p>Recibira notificaciones a su dirección de correo electronico</p>
-                </Segment>
-                </TransitionablePortal>
-            </div>
-        )}   
+        {this.state.aviso && (<AvisoMini text="Recibira notificaciones a su dirección de correo electronico" />)}   
             <footer className="container-fluid">
                 <div className="row justify-content-center mt-2 p-4">
                     <h3 className="text-center">La Carreta</h3>
