@@ -65,7 +65,7 @@ class PedidosHogar extends React.Component{
     }
 
     hacer_pedido = (e) => {
-        if(localStorage.getItem('user')){
+        if(!localStorage.getItem('user')){
             this.setState({
                 aviso: true
             })
@@ -76,13 +76,15 @@ class PedidosHogar extends React.Component{
                 campo_direccion.style.backgroundColor = '#FEE9E4';
                 campo_direccion.setAttribute('placeholder','Tiene que especificar la direccion o calle de destino');
             }else{
+                const cantidad = document.getElementById('cantidad-pedidio').innerHTML;
                 const dato = {
                     IdPlato:  0,
-                    cantidad: '',
+                    cantidad: Number(cantidad),
                     direccion: direccion,
                     latitud: localStorage.getItem('latitud'),
                     longitud: localStorage.getItem('longitud')
                 }
+                console.log(dato);
             }
         }
     }

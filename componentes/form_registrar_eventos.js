@@ -34,10 +34,26 @@ class formRegistrar extends React.Component{
         const datos = {
           fecha: date,
           hora: hora,
-          persona: personas,
+          personas: personas,
           nombre: nombre,
           telefono: telefono
         }
+        
+        const https = 'https://api-next-carreta.now.sh';
+
+        fetch(`https://cors-anywhere.herokuapp.com/${https}/reservaciones`, {
+                method: 'POST',
+                body: JSON.stringify(datos),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }).then( res => {
+                res.json();
+            })
+            .catch( e => {
+                console.log('POST RESERVACIONES '+ e);
+        })
+
         sms.classList = 'ui positive message';
         sms.innerHTML = `
           <div class="header">
