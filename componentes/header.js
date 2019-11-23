@@ -1,12 +1,15 @@
 import React from 'react';
 import Head from './head';
 import { Link } from "../routes";
-import { Icon, Menu, Input } from 'semantic-ui-react';
+import { Icon, Menu, Input, Label, Image } from 'semantic-ui-react';
+import { getId, login, postColletion, token } from "./Api/index";
 import "../componentes/css/header.styl";
 
 class header extends React.Component{
     state = { activeItem: 'closest',
-                session: false }
+                session: false,
+                name_user: 'anonimo'
+             }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
   Open_AND_close_Menu = () => {
@@ -57,44 +60,32 @@ class header extends React.Component{
             <div class="header">Se necesita 7 o mas caracteres en contraseña</div>
         `;
       }else{
-          const https = 'https://api-carreta.now.sh/';
     
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/${https}/user?correo=${correo}&clave=${password}`)
-        const respuesta = await res.json();
-        
-        if(respuesta.body.length == 0 || respuesta.error == 'usuario no encontrado' || respuesta.error == 'contraseña incorrecta'){
-            crear_sms.classList = "ui positive  message";
-            crear_sms.innerHTML = `
-                <div class="header">Exito al crear su cuenta</div>
-            `;
-
-            const datos = {
-                name: user,
-                correo: correo,
-                clave: password,
-                telefono: phone
-            }
-
-            fetch(`https://cors-anywhere.herokuapp.com/${https}/user`, {
-                method: 'POST',
-                body: JSON.stringify(datos),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            }).then( res => {
-                res.json();
+        login(correo, password)
+            .then( data => {
+                const respuesta = data;
+                    if(respuesta.body.length == 0 || respuesta.error == 'usuario no encontrado' || respuesta.error == 'contraseña incorrecta'){
+                        crear_sms.classList = "ui positive  message";
+                        crear_sms.innerHTML = `
+                            <div class="header">Exito al crear su cuenta</div>
+                        `;
+            
+                        const datos = {
+                            name: user,
+                            correo: correo,
+                            clave: password,
+                            telefono: phone
+                        }
+            
+                        postColletion('user', datos);
+            
+                    }else{
+                        crear_sms.classList = "ui negative  message";
+                        crear_sms.innerHTML = `
+                            <div class="header">Error ya existe una cuenta con estos datos.</div>
+                        `;
+                    }
             })
-            .catch( e => {
-                console.log('POST USUARIO '+ e);
-            })
-
-        }else{
-            crear_sms.classList = "ui negative  message";
-            crear_sms.innerHTML = `
-                <div class="header">Error ya existe una cuenta con estos datos.</div>
-            `;
-        }
-
       }
 
       document.getElementById('insert_message_registro').appendChild(crear_sms);
@@ -132,63 +123,42 @@ class header extends React.Component{
             <div class="header">Campos vacios, por favor revisa y vuelve a intentarlo</div>
         `;
     }else{
+
         
-        const https = 'https://api-carreta.now.sh/';
-
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/${https}/user?correo=${login_correo}&clave=${login_password}`)
-        const respuesta = await res.json();
-        console.log(respuesta);
-
-        if(respuesta.error == 'contraseña incorrecta'){
-            crear_sms_login.innerHTML = `
-                <div class="header">Datos incorrectos, vuelva a intentarlo</div>
-            `;  
-        }else{
-            
-            const datos = {
-                id: respuesta.body[0]._id,
-                name: respuesta.body[0].name,
-                correo: respuesta.body[0].correo,
-                clave: respuesta.body[0].clave,
-                telefono: respuesta.body[0].telefono
-            }
-
-                const res_2 = await fetch(`https://cors-anywhere.herokuapp.com/${https}/login`, {
-                    method: 'POST',
-                    body: JSON.stringify(datos),
-                    headers:{
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-            const respuesta_2 = await res_2.json();
-            console.log(respuesta_2);
-            const token = respuesta_2.key;
-
-            const res_3 = await fetch(`https://cors-anywhere.herokuapp.com/${https}/login/protected`, {
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const respuesta_3 = await res_3.json();
-            console.log(respuesta_3);
-            
-            if(respuesta_3.text == "protegido"){
-                if(respuesta_3.data.respuesta.name !== 'ADMINISTRACION-CARRETA' && respuesta_3.data.respuesta.correo !== 'admin@gmail.com'){
-                    localStorage.setItem('user', respuesta_3.data.respuesta.id);
-                    window.location.href = "/especiales";
+        login(login_correo, login_password)
+            .then( data => {
+                const respuesta = data;
+                
+                if(respuesta.error == 'contraseña incorrecta'){
+                    crear_sms_login.innerHTML = `
+                        <div class="header">Datos incorrectos, vuelva a intentarlo</div>
+                    `;  
                 }else{
-                    localStorage.setItem('admin', respuesta_3.data.respuesta.id);
-                    window.location.href = "/administracion";
+                    
+                    const datos = {
+                        id: respuesta.body[0]._id,
+                        name: respuesta.body[0].name,
+                        correo: respuesta.body[0].correo,
+                        clave: respuesta.body[0].clave,
+                        telefono: respuesta.body[0].telefono
+                    }
+        
+                    token(datos)
+                        .then( data => {
+                            const respuesta_3 = data; 
+                            
+                            if(respuesta_3.text == "protegido"){
+                                if(respuesta_3.data.respuesta.name !== 'ADMINISTRACION-CARRETA' && respuesta_3.data.respuesta.correo !== 'admin@gmail.com'){
+                                    localStorage.setItem('user', respuesta_3.data.respuesta.id);
+                                    window.location.href = "/especiales";
+                                }else{
+                                    localStorage.setItem('admin', respuesta_3.data.respuesta.id);
+                                    window.location.href = "/administracion";
+                                }
+                            }
+                        })
                 }
-            }
-        }
-            /*crear_sms_login.classList = "ui positive message";
-            crear_sms_login.innerHTML = `
-                <div class="header">Acceso concedido</div>
-        `;*/
+            })
     }
 
     document.getElementById('insert_message_login').appendChild(crear_sms_login);
@@ -202,7 +172,10 @@ class header extends React.Component{
 
   }
 
-  cerrarSession = () => localStorage.removeItem('user');
+  cerrarSession = () => {
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  }
 
 
   componentDidMount(){
@@ -210,6 +183,11 @@ class header extends React.Component{
         this.setState({
             session: true
         })
+        getId('user', localStorage.getItem('user')).then( data => {
+            this.setState({
+                name_user: data.body[0].name
+            })
+        });
       }
   }
  
@@ -231,10 +209,13 @@ class header extends React.Component{
                     <div className="col-10 menu-itens">
                         <ul>
                             <li>
-                                <a href="#">
-                                    <Input
-                                        icon={<Icon className="input_search" name='search' inverted circular link />}
-                                        size='mini' className="input_search" placeholder='Search...'/>
+                                <a href="/"> 
+                                    <Label basic image>
+                                        <img src='https://react.semantic-ui.com/images/avatar/small/elliot.jpg' />
+                                            {this.state.session ? 
+                                                this.state.name_user 
+                                            : "anonimo" }
+                                    </Label>
                                 </a>
                             </li>
                             <li>
@@ -286,13 +267,21 @@ class header extends React.Component{
 
                             <Link to="#">
                                 <a>
-                                    <Menu.Item name='Login'
-                                    active={activeItem === 'Login'}
-                                    onClick={this.handleItemClick}
-                                    data-toggle="modal"
-                                    data-target="#exampleModalCenter">
-                                    
-                                    </Menu.Item>
+                                    {this.state.session ? 
+                                        <Menu.Item name='Salir'
+                                        active={activeItem === 'Salir'}
+                                        onClick={this.cerrarSession}>
+                                        
+                                        </Menu.Item> 
+                                        :
+                                        <Menu.Item name='Login'
+                                        active={activeItem === 'Login'}
+                                        onClick={this.handleItemClick}
+                                        data-toggle="modal"
+                                        data-target="#exampleModalCenter">
+                                        
+                                        </Menu.Item>
+                                    }
                                 </a>
                             </Link>
                             
@@ -327,7 +316,18 @@ class header extends React.Component{
                             </Link>
                                 
                             <Menu.Item>
-                                <Input placeholder='Que Buscas..!' type="search" />
+                                <div className="row">
+                                    <div className="col-4">
+                                        <Image size="mini" src='https://react.semantic-ui.com/images/avatar/small/elliot.jpg' />
+                                    </div>
+                                    <div className="col">
+                                        <Label basic>
+                                            {this.state.session ? 
+                                                this.state.name_user 
+                                            : "anonimo" }
+                                        </Label>
+                                    </div>
+                                </div>
                             </Menu.Item>
                         </Menu>
                     </div>
