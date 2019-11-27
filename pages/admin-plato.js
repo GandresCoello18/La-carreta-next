@@ -3,6 +3,7 @@ import HeaderAdmin from "../componentes/header-admin";
 import Opcion from "../componentes/opcion-admin";
 import {  Form, Input, TextArea, Button, Table, Image, Select } from "semantic-ui-react";
 import { DocumentQuery } from "mongoose";
+import { postFormData } from '../componentes/Api/index';
 
 const options = [
     { key: 1, text: 1, value: 1 },
@@ -18,31 +19,27 @@ class AdminPLato extends React.Component{
     }
 
     doLogin = () => {
-        const data = {
-            name: document.querySelector("#nombre-plato").value,
-            precio: document.querySelector("#precio-plato").value,
-            ranking: document.querySelector('#ranking-plato').value,
-            imagen: document.querySelector('#imagen-plato').value,
-            tipo: document.querySelector('#tipo-plato').value,
-            descripcion: document.querySelector('#descripcion-plato').value
+        const name = document.querySelector("#nombre-plato").value;
+        const precio = document.querySelector("#precio-plato").value;
+        const ranking = document.querySelector('#ranking-plato').value;
+        const file = document.querySelector('input[type="file"]').files[0];
+        const tipo = document.querySelector('#tipo-plato').value;
+        const descripcion = document.querySelector('#descripcion-plato').value;
+
+        if(!name || !precio || !ranking || !file || !tipo || !descripcion){
+            alert('campos vacios - vuelve a intentarlo');
+        }else{
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('file', file);
+            formData.append('precio', precio);
+            formData.append('ranking', ranking);
+            formData.append('tipo', tipo);
+
+            console.log(formData.values);
+
+            postFormData('plato',formData);
         }
-        
-        const https = 'https://api-carreta.now.sh/';
-
-        fetch(`https://cors-anywhere.herokuapp.com/${https}/plato`, {
-                method: 'POST',
-                body: JSON.stringify(datos),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            }).then( res => {
-                res.json();
-            })
-            .catch( e => {
-                console.log('POST PLATO '+ e);
-            })
-
-            console.log(data);
     }
 
     handleChange = (e, { value }) => this.setState({ value })
@@ -61,10 +58,10 @@ class AdminPLato extends React.Component{
 
                     <div className="row justify-content-center mt-5">
                         <div className="col-12">
-                            <Form onSubmit={this.doLogin}>
+                            <Form onSubmit={this.doLogin} enctype='multipart/form-data'>
                                 <Form.Group widths='equal'>
                                     <Form.Field id='form-input-control-first-name'>
-                                        <label for="nombre-plato"> Plato</label>
+                                        <label for="nombre-plato"> name</label>
                                         <Input 
                                             placeholder='Nombre del plato'
                                             id='nombre-plato' 
@@ -88,15 +85,17 @@ class AdminPLato extends React.Component{
                                         </select>
                                     </Form.Field>
                                     <Form.Field id='form-input-control-first-name'>
-                                        <label for="imagen-plato">Imagen</label>
+                                        <label for="imagen-plato">file</label>
                                         <Input 
                                             placeholder='Imagen'
+                                            mame='file'
                                             id='imagen-plato'
                                             type='file' 
+                                            multiple='multiple'
                                         />
                                     </Form.Field>
                                     <Form.Field id='form-input-control-first-name'>
-                                        <label for="tipo-plato">Imagen</label>
+                                        <label for="tipo-plato">Tipo</label>
                                         <select placeholder="tipo" id="tipo-plato">
                                             <option>Plato a la carta</option>
                                             <option>Menu diario</option>

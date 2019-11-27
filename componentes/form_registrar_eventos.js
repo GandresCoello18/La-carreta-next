@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Message  } from 'semantic-ui-react';
+import { postColletion } from "./Api/index";
 
 class formRegistrar extends React.Component{
 
@@ -38,21 +39,8 @@ class formRegistrar extends React.Component{
           nombre: nombre,
           telefono: telefono
         }
-        
-        const https = 'https://api-next-carreta.now.sh';
 
-        fetch(`https://cors-anywhere.herokuapp.com/${https}/reservaciones`, {
-                method: 'POST',
-                body: JSON.stringify(datos),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            }).then( res => {
-                res.json();
-            })
-            .catch( e => {
-                console.log('POST RESERVACIONES '+ e);
-        })
+        postColletion('reservaciones', datos);
 
         sms.classList = 'ui positive message';
         sms.innerHTML = `
