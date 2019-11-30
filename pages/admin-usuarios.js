@@ -3,6 +3,7 @@ import HeaderAdmin from "../componentes/header-admin";
 import Opcion from "../componentes/opcion-admin";
 import Error from "next/error";
 import 'isomorphic-fetch';
+import { getColletion } from "../componentes/Api/index";
 import { Table } from "semantic-ui-react";
 
 
@@ -12,12 +13,11 @@ class AdminUser extends React.Component{
     }
     
     async componentDidMount(){
-        const https = 'https://api-carreta.now.sh/';
-        const req = await fetch(`https://cors-anywhere.herokuapp.com/${https}/user`);
-        let  datos  = await req.json();
-        this.setState({
-            data: datos.body
-        })
+        getColletion('user').then( data => {
+            this.setState({
+                data: data.body
+            });
+        });
     }
 
     notificacion = id => {

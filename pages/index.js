@@ -7,35 +7,12 @@ import RedesSocial from "../componentes/redes-sociales";
 import FormRegistrarEvent from "../componentes/form_registrar_eventos";
 import Footer from "../componentes/footer";
 import Card from "../componentes/card";
+import { getColletion } from '../componentes/Api/index';
 import "../componentes/css/home.styl";
 
 export default class IndexPage extends React.Component {
   state = {
-    data_especiales: {
-      "datos":[
-        {
-          "id": 1,
-          "imagen": "dish-3.png",
-          "title": "Carne agridulce con ensalada de brocoli",
-          "estrellas": 4,
-          "precio": 6
-        },
-        {
-          "id": 2,
-          "imagen": "dish-1.png",
-          "title": "Ensalada marinera con conchas y camaron",
-          "estrellas": 4,
-          "precio": 5
-        },
-        {
-          "id": 3,
-          "imagen": "dish-2.png",
-          "title": "Churrascos de pescado con huevos cocidos",
-          "estrellas": 4,
-          "precio": 7
-        },
-      ]
-    },
+    menu_diario: [],
     data_testimonios: {
       "datos":[
         {
@@ -62,6 +39,14 @@ export default class IndexPage extends React.Component {
       ]
     }
   }
+  
+  componentDidMount(){
+    getColletion('plato').then( data => {
+      this.setState({
+        menu_diario: data.body.filter( valor => valor.tipo == 'diario' )
+      })
+    })
+  }
 
   render() {
     return (
@@ -81,9 +66,9 @@ export default class IndexPage extends React.Component {
 
             <h2 className="text-center mt-5">Menu De Hoy</h2>
             <div className="row justify-content-center especiales">
-              {this.state.data_especiales.datos.map( valor => (
+              {this.state.menu_diario.map( valor => (
                 <div className="col-12 col-sm-6 col-md-4 p-3">
-                  <Card id={valor.id} imagen={valor.imagen}  title={valor.title} estrellas={valor.estrellas} precio={valor.precio} />
+                  <Card id={valor._id} imagen={valor.fileUrl}  title={valor.name} estrellas={valor.ranking} precio={valor.precio} />
                 </div>
               ))}
             </div>

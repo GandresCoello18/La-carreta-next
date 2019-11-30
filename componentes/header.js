@@ -189,6 +189,9 @@ class header extends React.Component{
             })
         });
       }
+      if(localStorage.getItem('admin')){
+        window.location.href = '/administracion';
+      }
   }
  
     render(){
@@ -202,7 +205,7 @@ class header extends React.Component{
                     <div className="col-2 logo">
                         <Link route="/" >
                             <a>
-                                <img src="static/logo.jpg" />
+                                <img src="/static/logo.jpg" />
                             </a>
                         </Link>        
                     </div>

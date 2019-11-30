@@ -6,7 +6,10 @@ import BtnListPlatos from "../componentes/caja_frontal_lista";
 import Footer from "../componentes/footer";
 import AvisoModal  from "../componentes/aviso_mini_modal";
 import "../componentes/css/pedidios-domicilio.styl";
+import { getId, getParams } from "../componentes/Api/index";
+import Error from "next/error";
 import { Button, Icon, Image , Image as ImageComponent, Item, Form, Input } from 'semantic-ui-react'
+import { postColletion } from "../componentes/Api/index";
 
 
 class PedidosHogar extends React.Component{
@@ -14,10 +17,42 @@ class PedidosHogar extends React.Component{
         cantidad_pedido: 1,
         latitud: 0,
         longitud: 0,
-        aviso: false
+        aviso: false,
+        textAviso:'',
+        idPlato: 0,
+        platoCompra: [],
+        platoRecomendado: [],
+        Error: false
+    }
+
+    static async getInitialProps ({query}) {
+        return {query}
     }
 
     componentDidMount(){
+        const data = {plato: this.props.url.query.plato};
+        this.setState({
+            idPlato: data.plato
+        });
+
+        getId('plato', data.plato).then( data => {
+            if(data.body.length > 1){
+                this.setState({
+                    Error: true
+                });
+            }else{
+                this.setState({
+                    platoCompra: data.body[0]
+                });
+            }
+        });
+
+        getParams('plato', data.plato).then( data => {
+            this.setState({
+                platoRecomendado: data.body
+            })
+        });
+
         (function(){
             if(!!navigator.geolocation){
                 var map;
@@ -67,7 +102,8 @@ class PedidosHogar extends React.Component{
     hacer_pedido = (e) => {
         if(!localStorage.getItem('user')){
             this.setState({
-                aviso: true
+                aviso: true,
+                textAviso: "Necesita iniciar session para realizar el pedido."
             })
         }else{
             const campo_direccion = document.getElementById('direccion-pedido');
@@ -76,25 +112,34 @@ class PedidosHogar extends React.Component{
                 campo_direccion.style.backgroundColor = '#FEE9E4';
                 campo_direccion.setAttribute('placeholder','Tiene que especificar la direccion o calle de destino');
             }else{
+
+                this.setState({
+                    aviso: true,
+                    textAviso: "Espere un momento..!"
+                })
+
                 const cantidad = document.getElementById('cantidad-pedidio').innerHTML;
                 const dato = {
-                    IdPlato:  0,
+                    usuario:  localStorage.getItem('user'),
+                    plato: this.state.idPlato,
                     cantidad: Number(cantidad),
                     direccion: direccion,
                     latitud: localStorage.getItem('latitud'),
                     longitud: localStorage.getItem('longitud')
                 }
-                console.log(dato);
+                postColletion('pedidos', dato);
+                e.target.reset();
             }
         }
     }
 
     render(){
-        const paragraph = "este es una breve descripcion";
-
+        if(this.state.Error == true){
+            return <Error statusCode={503} />
+        }
         return(
             <>
-            {this.state.aviso && (<AvisoModal text="Necesita iniciar session para realizar el pedido." />)}
+            {this.state.aviso && (<AvisoModal text={this.state.textAviso} />)}
                 <div className="container-fluid">
                     <div className="row fondo-pedidos">
 
@@ -107,18 +152,18 @@ class PedidosHogar extends React.Component{
 
                     </div>
 
-                    <div className="row justify-content-center mt-2 p-4">
+                    <div className="row justify-content-center mt-2 p-4 preload-pedidos">
                         <div className="col-12 col-lg-6">
                             <div className="card mb-3">
                                 <div className="row no-gutters">
                                     <div className="col-md-4">
-                                        <Image src="/static/dish-3.png" size="medium" className="card-img" alt="..." />
+                                        <Image src={this.state.platoCompra.fileUrl} size="medium" className="card-img" alt="..." />
                                     </div>
                                     <div className="col-md-8">
                                         <div className="card-body">
-                                            <h5 className="card-title">Carne al jugo con un toque de naranja</h5>
-                                            <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                            <h2 className="card-text"><small class="text-muted">&nbsp;<b>$ 5</b></small></h2>
+                                            <h5 className="card-title">{this.state.platoCompra.name}</h5>
+                                            <p className="card-text">{this.state.platoCompra.descripcion}</p>
+                                            <h2 className="card-text"><small class="text-muted">&nbsp;<b>$ {this.state.platoCompra.precio}</b></small></h2>
                                             <div className="row">
                                                 <div className="col">
                                                     <Button.Group>
@@ -148,40 +193,18 @@ class PedidosHogar extends React.Component{
                         <div className="col-12 col-lg-6 col-xl-4">
                             <h3 className="text-center p-4">Recomendado para ti</h3>
                             <Item.Group link divided>
-                                
-                                <Item>
-                                    <Item.Image size='small' src='/static/dish-3.png' />
-                                    <Item.Content verticalAlign='middle'>
-                                        <Item.Header>Veronika Ossi &nbsp; &nbsp; <b>$ 4</b></Item.Header>
-                                        <Item.Description>{paragraph}</Item.Description>
-                                        <Link href={`/pedidos-adomicilio?plato=${this.props.id}`} prefetch>
-                                            <a className="btn btn-info float-right mt-3 mt-md-0">Añadir</a>
-                                        </Link>    
-                                    </Item.Content>
-                                </Item>
-                                
-                                <Item>
-                                    <Item.Image size='small' src='/static/dish-3.png' />
-                                    <Item.Content verticalAlign='middle'>
-                                        <Item.Header>Veronika Ossi &nbsp; &nbsp; <b>$ 4</b></Item.Header>
-                                        <Item.Description>{paragraph}</Item.Description>
-                                        <Link href={`/pedidos-adomicilio?plato=${this.props.id}`} prefetch>
-                                            <a className="btn btn-info float-right mt-3 mt-md-0">Añadir</a>
-                                        </Link>    
-                                    </Item.Content>
-                                </Item>
-
-                                <Item>
-                                    <Item.Image size='small' src='/static/dish-3.png' />
-                                    <Item.Content verticalAlign='middle'>
-                                        <Item.Header>Veronika Ossi &nbsp; &nbsp; <b>$ 4</b></Item.Header>
-                                        <Item.Description>{paragraph}</Item.Description>
-                                        <Link href={`/pedidos-adomicilio?plato=${this.props.id}`} prefetch>
-                                            <a className="btn btn-info float-right mt-3 mt-md-0">Añadir</a>
-                                        </Link>    
-                                    </Item.Content>
-                                </Item>                                                          
-
+                                {this.state.platoRecomendado.map( valor => (
+                                    <Item>
+                                        <Item.Image size='small' src={valor.fileUrl} />
+                                        <Item.Content verticalAlign='middle'>
+                                            <Item.Header>{valor.name} &nbsp; &nbsp; <b>$ {valor.precio}</b></Item.Header>
+                                            <Item.Description>{valor.descripcion}</Item.Description>
+                                            <Link href={`/pedidos-adomicilio/${valor._id}`} prefetch>
+                                                <a className="btn btn-info float-right mt-3 mt-md-0">Añadir</a>
+                                            </Link>    
+                                        </Item.Content>
+                                    </Item>
+                                ))}
                             </Item.Group>
                         </div>
                     </div>
@@ -195,6 +218,13 @@ class PedidosHogar extends React.Component{
                         width: 99%;
                         height: 300px;
                         border: 1px solid #cdcdcd;
+                    }
+                    .seccion-preload{
+                        width: 99%;
+                        position: absolute;
+                        z-index: 99;
+                        top: -500px;
+                        height: 100%;
                     }
                 `}</style>
             </>

@@ -5,7 +5,7 @@ routes
 .add('especiales', '/especiales', 'especiales')
 .add('eventos', '/eventos', 'eventos')
 .add('reservacion', '/reservacion', 'reservacion')
-.add('pedidos-adomicilio', '/pedidos-adomicilio', 'pedidos-adomicilio')
+.add('pedidos-adomicilio', '/pedidos-adomicilio/:plato', 'pedidos-adomicilio')
 .add('administracion','/administracion','administracion')
 .add('admin-ventas', '/admin-ventas', 'admin-ventas')
 .add('admin-usuarios', '/admin-usuarios', 'admin-usuarios')

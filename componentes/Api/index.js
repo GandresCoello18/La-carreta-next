@@ -1,9 +1,14 @@
 
-const https = 'https://api-carreta-kwhs9h0ye.now.sh';
+const https = 'https://api-next-carreta.now.sh';
 const cors = 'https://cors-anywhere.herokuapp.com';
 
 const get = async (ruta) => {
     const res = await fetch(`${cors}/${https}/${ruta}`)
+    return await res.json();
+}
+
+const getParams = async (ruta, params) => {
+    const res = await fetch(`${cors}/${https}/${ruta}/${params}`)
     return await res.json();
 }
 
@@ -40,7 +45,7 @@ const postFormData = (ruta, datos) => {
 }
 
 const getColletion = (nombre) => {
-    get(null);
+    return get(nombre);
 }
 
 const postColletion = (ruta, object) => {
@@ -80,5 +85,6 @@ module.exports = {
     login,
     token,
     getId,
-    postFormData
+    postFormData,
+    getParams
 }

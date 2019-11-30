@@ -5,13 +5,13 @@ import { Statistic, Icon } from "semantic-ui-react";
 class Opcion extends React.Component{
 
     componentDidMount(){
-        if(window.location.href == 'http://localhost:3000/admin-ventas'){
+        if(window.location.pathname == '/admin-ventas'){
             cambiar_color('ventas-opcion');
-        }else if(window.location.href == 'http://localhost:3000/admin-usuarios'){
+        }else if(window.location.pathname == '/admin-usuarios'){
             cambiar_color('usuarios-opcion');
-        }else if(window.location.href == 'http://localhost:3000/admin-plato'){
+        }else if(window.location.pathname == '/admin-plato'){
             cambiar_color('anadir_plato');
-        }else if(window.location.href == 'http://localhost:3000/admin-entregas'){
+        }else if(window.location.pathname == '/admin-entregas'){
             cambiar_color('entregas_a_casa')
         }
         function cambiar_color(opcion){

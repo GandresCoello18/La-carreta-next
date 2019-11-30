@@ -4,6 +4,7 @@ import Opcion from "../componentes/opcion-admin";
 import {  Form, Input, TextArea, Button, Table, Image, Select } from "semantic-ui-react";
 import { DocumentQuery } from "mongoose";
 import { postFormData } from '../componentes/Api/index';
+import { getColletion } from "../componentes/Api/index";
 
 const options = [
     { key: 1, text: 1, value: 1 },
@@ -15,7 +16,16 @@ const options = [
 
 class AdminPLato extends React.Component{
     state = {
-        tipo: ''
+        tipo: '',
+        data_plato: []
+    }
+
+    componentDidMount(){
+        getColletion('plato').then( data => {
+            this.setState({
+                data_plato: data.body
+            });
+        })
     }
 
     doLogin = () => {
@@ -134,34 +144,15 @@ class AdminPLato extends React.Component{
                                 </Table.Header>
 
                                 <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>Ensalada Rusa</Table.Cell>
-                                    <Table.Cell><Image src='/static/dish-2.png' rounded size='mini' /></Table.Cell>
-                                    <Table.Cell>4.40</Table.Cell>
-                                    <Table.Cell>27/05/2020</Table.Cell>
-                                    <Table.Cell><button className="btn btn-danger">Eliminar</button> &nbsp; &nbsp; <button className="btn btn-warning text-white">Editar</button></Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>Ensalada Rusa</Table.Cell>
-                                    <Table.Cell><Image src='/static/dish-2.png' rounded size='mini' /></Table.Cell>
-                                    <Table.Cell>4.40</Table.Cell>
-                                    <Table.Cell>27/05/2020</Table.Cell>
-                                    <Table.Cell><button className="btn btn-danger">Eliminar</button> &nbsp; &nbsp; <button className="btn btn-warning text-white">Editar</button></Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>Ensalada Rusa</Table.Cell>
-                                    <Table.Cell><Image src='/static/dish-2.png' rounded size='mini' /></Table.Cell>
-                                    <Table.Cell>4.40</Table.Cell>
-                                    <Table.Cell>27/05/2020</Table.Cell>
-                                    <Table.Cell><button className="btn btn-danger">Eliminar</button> &nbsp; &nbsp; <button className="btn btn-warning text-white">Editar</button></Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>Ensalada Rusa</Table.Cell>
-                                    <Table.Cell><Image src='/static/dish-2.png' rounded size='mini' /></Table.Cell>
-                                    <Table.Cell>4.40</Table.Cell>
-                                    <Table.Cell>27/05/2020</Table.Cell>
-                                    <Table.Cell><button className="btn btn-danger">Eliminar</button> &nbsp; &nbsp; <button className="btn btn-warning text-white">Editar</button></Table.Cell>
-                                </Table.Row>
+                                    {this.state.data_plato.map( valor => (
+                                        <Table.Row key={valor._id}>
+                                            <Table.Cell>{valor.name}</Table.Cell>
+                                            <Table.Cell><Image src={valor.fileUrl} rounded size='mini' /></Table.Cell>
+                                            <Table.Cell>{valor.precio}</Table.Cell>
+                                            <Table.Cell>{valor.tipo}</Table.Cell>
+                                            <Table.Cell><button className="btn btn-danger">Eliminar</button> &nbsp; &nbsp; <button className="btn btn-warning text-white">Editar</button></Table.Cell>
+                                        </Table.Row>
+                                    ))}
                                 </Table.Body>
                             </Table>
                         </div>

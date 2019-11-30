@@ -7,7 +7,7 @@ class Tarjeta extends React.Component{
         return(
             <>
                 <Card key={this.props.id}>
-                    <Image src={'/static/'+this.props.imagen} wrapped ui={false} />
+                    <Image src={this.props.imagen} wrapped ui={false} />
                       <Card.Content>
                         <Card.Header>{this.props.title}</Card.Header>
                       <Card.Meta>
@@ -15,7 +15,7 @@ class Tarjeta extends React.Component{
                       </Card.Meta>
                     
                       <Card.Description>
-                        <Link href={`/pedidos-adomicilio?plato=${this.props.id}`} prefetch>
+                        <Link href={`/pedidos-adomicilio/${this.props.id}`} prefetch>
                             <a className="btn btn-success form-control m-sm-1 m-xl-0">Pedido a domicilio</a>
                         </Link>
                       </Card.Description>

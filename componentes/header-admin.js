@@ -7,6 +7,12 @@ class HeadAdmin extends React.Component{
     
     state = {}
 
+    componentDidMount(){
+        if(!localStorage.getItem('admin')){
+            window.location.href = '/';
+        }
+    }
+
     handleItemClick = (e, { name }) => {
         this.setState({ activeItem: name });
         if(name == 'cerrar'){
